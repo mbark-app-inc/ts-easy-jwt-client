@@ -1,5 +1,6 @@
 import * as chai from 'chai'
 import * as sinon from 'sinon'
+import MockStorage from './MockStorage'
 
 type ChaiAndSinonAssert = Chai.Assert & sinon.SinonAssert
 
@@ -17,4 +18,8 @@ declare module 'mocha' {
 before(function () {
   this.assert = chaiAndSinonAssert
   this.sinon = sinon
+})
+
+beforeEach(function () {
+  this.mockStorage = new MockStorage()
 })
