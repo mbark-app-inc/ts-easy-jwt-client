@@ -1,19 +1,24 @@
-import {
-  EasyJWTRequestOptions
-} from './types/EasyJWTRequest'
+import { EasyJWTRequestOptions } from './types/EasyJWTRequest'
 import { IEasyJWTRequest } from './interfaces/IEasyJWTRequest'
-import axios, { AxiosRequestConfig, AxiosPromise } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { EasyJWTTokenManager } from './EasyJWTTokenManager'
 
 export class EasyJWTRequest implements IEasyJWTRequest {
   options: EasyJWTRequestOptions
+  protected _tokenManager: EasyJWTTokenManager
 
-  constructor (options: EasyJWTRequestOptions) {
+  constructor(options: EasyJWTRequestOptions) {
     this.options = options
+    this._tokenManager = new EasyJWTTokenManager()
   }
 
-  send(data: Record<string, any> = {}): AxiosPromise {
+  protected _getNetworker() {
+    return axios
+  }
+
+  async send(data: Record<string, any> = {}): Promise<AxiosResponse> {
     const request = this._getRequest(data)
-    return axios(request)
+    return this._getNetworker()(request)
   }
 
   protected _getRequest(data: Record<string, any>) {
@@ -22,10 +27,7 @@ export class EasyJWTRequest implements IEasyJWTRequest {
       url: this.options.url
     }
 
-    const shouldBeParams = [
-      'GET',
-      'DELETE'
-    ].includes(this.options.method)
+    const shouldBeParams = ['GET', 'DELETE'].includes(this.options.method)
 
     if (shouldBeParams) {
       request.params = data
@@ -34,9 +36,9 @@ export class EasyJWTRequest implements IEasyJWTRequest {
     }
 
     if (this.options.needsAuth) {
-      const token = 'my token'
+      const token = this._tokenManager.getAccessToken()
       request.headers = {
-        'authorization': `Bearer ${token}`
+        authorization: `Bearer ${token}`
       }
     }
 

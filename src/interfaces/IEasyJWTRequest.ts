@@ -1,7 +1,5 @@
-import {
-  EasyJWTRequestOptions
-} from '../types/EasyJWTRequest'
-import { AxiosPromise } from 'axios'
+import { EasyJWTRequestOptions } from '../types/EasyJWTRequest'
+import { AxiosResponse } from 'axios'
 
 export interface IEasyJWTRequestClass {
   new (options: EasyJWTRequestOptions): IEasyJWTRequest
@@ -10,5 +8,5 @@ export interface IEasyJWTRequestClass {
 export interface IEasyJWTRequest {
   options: EasyJWTRequestOptions
 
-  send(data: Record<string, any>): AxiosPromise
+  send(data: Record<string, any>): Promise<AxiosResponse>
 }
