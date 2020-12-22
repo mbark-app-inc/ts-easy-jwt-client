@@ -11,7 +11,7 @@ import { RequestName } from './types/ProcessFactory'
 import { IReduxProcessClass } from 'ts-redux-process/dist/interfaces/IReduxProcess'
 import { ProcessPayload } from './types/ProcessFactory'
 
-export class ProcessGroupFactory<GlobalState extends RootState>
+export class ProcessGroupFactory<GlobalState extends RootState = RootState>
   implements IProcessGroupFactory<GlobalState> {
   options: ProcessGroupFactoryOptions
   protected _tokenManager = new EasyJWTTokenManager()
@@ -37,11 +37,16 @@ export class ProcessGroupFactory<GlobalState extends RootState>
     GlobalState
   >[] {
     if (!this._processes) {
-      this._processes = Object.entries(this.options.requests).map(
-        ([name, request]) => {
-          return this._processFactory.getProcess(name as RequestName, request)
+      this._processes = []
+      for (const [key, value] of Object.entries(this.options.requests)) {
+        if (value) {
+          const process = this._processFactory.getProcess(
+            key as RequestName,
+            value
+          )
+          this._processes.push(process)
         }
-      )
+      }
     }
     return this._processes
   }

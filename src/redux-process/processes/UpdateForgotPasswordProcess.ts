@@ -6,10 +6,9 @@ import { EasyJWTNetworker } from '../../EasyJWTNetworker'
 import { EasyJWTRequest } from '../../EasyJWTRequest'
 import NetworkError from '../errors/NetworkError'
 
-export function getUpdateForgotPasswordProcess<GlobalState extends RootState>(
-  networker: EasyJWTNetworker,
-  request: EasyJWTRequest
-) {
+export function getUpdateForgotPasswordProcess<
+  GlobalState extends RootState = RootState
+>(networker: EasyJWTNetworker, request: EasyJWTRequest) {
   return class UpdateForgotPasswordProcess extends ReduxProcess<
     any,
     ProcessPayload | null,

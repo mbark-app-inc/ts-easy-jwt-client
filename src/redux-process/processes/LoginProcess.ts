@@ -6,7 +6,7 @@ import { EasyJWTNetworker } from '../../EasyJWTNetworker'
 import { EasyJWTRequest } from '../../EasyJWTRequest'
 import NetworkError from '../errors/NetworkError'
 
-export function getLoginProcess<GlobalState extends RootState>(
+export function getLoginProcess<GlobalState extends RootState = RootState>(
   networker: EasyJWTNetworker,
   request: EasyJWTRequest
 ) {

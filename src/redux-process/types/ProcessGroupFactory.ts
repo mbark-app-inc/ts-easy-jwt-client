@@ -15,7 +15,7 @@ export type RootState = {
 
 export type ProcessGroupFactoryOptions = {
   requests: {
-    [name in RequestName]: EasyJWTRequest
+    [name in RequestName]?: EasyJWTRequest
   }
   networker: EasyJWTNetworker
 }

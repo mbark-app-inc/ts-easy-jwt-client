@@ -15,7 +15,7 @@ import { getLogoutProcess } from './processes/LogoutProcess'
 import { getForgotPasswordProcess } from './processes/ForgotPasswordProcess'
 import { getUpdateForgotPasswordProcess } from './processes/UpdateForgotPasswordProcess'
 
-export class ProcessFactory<GlobalState extends RootState>
+export class ProcessFactory<GlobalState extends RootState = RootState>
   implements IProcessFactory<GlobalState> {
   options: ProcessFactoryOptions
   protected _tokenManager: EasyJWTTokenManager = new EasyJWTTokenManager()
