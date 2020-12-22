@@ -1,45 +1,18 @@
-import { ReduxProcess } from 'ts-redux-process'
+import { EasyJWTProcess } from './EasyJWTProcess'
 import { ProcessPayload } from '../types/ProcessFactory'
-import { AuthState, RootState } from '../types/ProcessGroupFactory'
-import { EasyJWTTokenManager } from '../../EasyJWTTokenManager'
+import { RootState } from '../types/ProcessGroupFactory'
 import { EasyJWTNetworker } from '../../EasyJWTNetworker'
 import { EasyJWTRequest } from '../../EasyJWTRequest'
-import NetworkError from '../errors/NetworkError'
+import { payloadHandler } from '../helpers/payloadHandler'
 
 export function getLogoutProcess<GlobalState extends RootState = RootState>(
   networker: EasyJWTNetworker,
   request: EasyJWTRequest
 ) {
-  return class LogoutProcess extends ReduxProcess<
-    any,
-    ProcessPayload | null,
-    AuthState,
-    GlobalState
-  > {
+  return class LogoutProcess extends EasyJWTProcess<GlobalState> {
     async performAction(form: any = {}): Promise<ProcessPayload | null> {
       const response = await networker.execute(request, form)
-      if (response.status === 200) {
-        const tokenManager = new EasyJWTTokenManager()
-        tokenManager.removeAccessToken()
-        tokenManager.removeRefreshToken()
-
-        return {
-          user: null
-        }
-      } else {
-        throw new NetworkError(response)
-      }
-    }
-
-    getNewState(payload: ProcessPayload | null, oldState: AuthState) {
-      if (payload) {
-        return {
-          ...oldState,
-          ...payload
-        }
-      } else {
-        return oldState
-      }
+      return payloadHandler(response)
     }
   }
 }
