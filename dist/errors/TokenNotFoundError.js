@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class TokenNotFoundError extends Error {
+    constructor() {
+        super('Auth token not found.');
+        this.name = this.constructor.name;
+    }
+}
+exports.default = TokenNotFoundError;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVG9rZW5Ob3RGb3VuZEVycm9yLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vc3JjL2Vycm9ycy9Ub2tlbk5vdEZvdW5kRXJyb3IudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxNQUFxQixrQkFBbUIsU0FBUSxLQUFLO0lBQ25EO1FBQ0UsS0FBSyxDQUFDLHVCQUF1QixDQUFDLENBQUE7UUFFOUIsSUFBSSxDQUFDLElBQUksR0FBRyxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQTtJQUNuQyxDQUFDO0NBQ0Y7QUFORCxxQ0FNQyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0IGNsYXNzIFRva2VuTm90Rm91bmRFcnJvciBleHRlbmRzIEVycm9yIHtcbiAgY29uc3RydWN0b3IoKSB7XG4gICAgc3VwZXIoJ0F1dGggdG9rZW4gbm90IGZvdW5kLicpXG5cbiAgICB0aGlzLm5hbWUgPSB0aGlzLmNvbnN0cnVjdG9yLm5hbWVcbiAgfVxufVxuIl19
