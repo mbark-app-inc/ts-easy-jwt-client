@@ -3,7 +3,7 @@ import { ProcessPayload } from '../types/ProcessFactory'
 import { RootState } from '../types/ProcessGroupFactory'
 import { EasyJWTNetworker } from '../../EasyJWTNetworker'
 import { EasyJWTRequest } from '../../EasyJWTRequest'
-import { payloadHandler } from '../helpers/payloadHandler'
+import { PayloadHandler } from '../helpers/PayloadHandler'
 
 export function getForgotPasswordProcess<
   GlobalState extends RootState = RootState
@@ -11,7 +11,8 @@ export function getForgotPasswordProcess<
   return class ForgotPasswordProcess extends EasyJWTProcess<GlobalState> {
     async performAction(form: any = {}): Promise<ProcessPayload | null> {
       const response = await networker.execute(request, form)
-      return payloadHandler(response)
+      const handler = new PayloadHandler()
+      return handler.process(response)
     }
   }
 }
