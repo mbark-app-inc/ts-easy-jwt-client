@@ -16,10 +16,8 @@ export interface IProcessGroupFactory<
 > {
   options: ProcessGroupFactoryOptions
   getProcessGroup(): ReduxProcessGroup<AuthState, GlobalState>
-  getProcesses(): IReduxProcessClass<
-    any,
-    ProcessPayload | null,
-    AuthState,
-    GlobalState
-  >[]
+  getProcesses(): Record<
+    string,
+    IReduxProcessClass<any, ProcessPayload | null, AuthState, GlobalState>
+  >
 }

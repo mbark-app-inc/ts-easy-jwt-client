@@ -33,16 +33,16 @@ describe('src/redux-process/ProcessGroupFactory::getProcesses', function () {
   it('should redux processes and set cache', function () {
     this.assert.isNotOk(processGroupFactory['_processes'])
     const processes = processGroupFactory.getProcesses()
-    this.assert.isArray(processes)
-    this.assert.lengthOf(processes, 1)
-    this.assert.isArray(processGroupFactory['_processes'])
+    this.assert.hasAllKeys(processes, ['RegisterProcess'])
+    this.assert.equal(processes, processGroupFactory['_processes'])
   })
 
   it('should return cache if already called once', function () {
-    this.assert.isArray(processGroupFactory['_processes'])
+    this.assert.hasAllKeys(processGroupFactory['_processes'], [
+      'RegisterProcess'
+    ])
     const processes = processGroupFactory.getProcesses()
-    this.assert.isArray(processes)
-    this.assert.lengthOf(processes, 1)
-    this.assert.isArray(processGroupFactory['_processes'])
+    this.assert.hasAllKeys(processes, ['RegisterProcess'])
+    this.assert.equal(processes, processGroupFactory['_processes'])
   })
 })

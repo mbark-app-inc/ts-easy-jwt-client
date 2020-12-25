@@ -15,19 +15,15 @@ export declare class ProcessGroupFactory<
   options: ProcessGroupFactoryOptions
   protected _tokenManager: EasyJWTTokenManager
   protected _processFactory: ProcessFactory<GlobalState>
-  protected _processes?: IReduxProcessClass<
-    any,
-    ProcessPayload | null,
-    AuthState,
-    GlobalState
-  >[]
+  protected _processes?: Record<
+    string,
+    IReduxProcessClass<any, ProcessPayload | null, AuthState, GlobalState>
+  >
   constructor(options: ProcessGroupFactoryOptions)
-  getProcesses(): IReduxProcessClass<
-    any,
-    ProcessPayload | null,
-    AuthState,
-    GlobalState
-  >[]
+  getProcesses(): Record<
+    string,
+    IReduxProcessClass<any, ProcessPayload | null, AuthState, GlobalState>
+  >
   getProcessGroup(): ReduxProcessGroup<AuthState, GlobalState>
   protected _getDefaultState(): AuthState
 }

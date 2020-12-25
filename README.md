@@ -14,7 +14,7 @@ npm install ts-easy-jwt-client --save
 
 ## Usage example
 
-Coming soon...
+This package utilizes [axios](https://www.npmjs.com/package/axios) for outbound requests. It contains two classes to achieve a simple, re-usable interface.
 
 See [docs/](https://github.com/Olencki-Development/ts-easy-jwt-client/tree/main/docs) for documentation of each component and advanced usage.
 

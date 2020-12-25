@@ -16,12 +16,10 @@ export class ProcessGroupFactory<GlobalState extends RootState = RootState>
   options: ProcessGroupFactoryOptions
   protected _tokenManager = new EasyJWTTokenManager()
   protected _processFactory: ProcessFactory<GlobalState>
-  protected _processes?: IReduxProcessClass<
-    any,
-    ProcessPayload | null,
-    AuthState,
-    GlobalState
-  >[]
+  protected _processes?: Record<
+    string,
+    IReduxProcessClass<any, ProcessPayload | null, AuthState, GlobalState>
+  >
 
   constructor(options: ProcessGroupFactoryOptions) {
     this.options = options
@@ -30,21 +28,19 @@ export class ProcessGroupFactory<GlobalState extends RootState = RootState>
     })
   }
 
-  getProcesses(): IReduxProcessClass<
-    any,
-    ProcessPayload | null,
-    AuthState,
-    GlobalState
-  >[] {
+  getProcesses(): Record<
+    string,
+    IReduxProcessClass<any, ProcessPayload | null, AuthState, GlobalState>
+  > {
     if (!this._processes) {
-      this._processes = []
+      this._processes = {}
       for (const [key, value] of Object.entries(this.options.requests)) {
         if (value) {
           const process = this._processFactory.getProcess(
             key as RequestName,
             value
           )
-          this._processes.push(process)
+          this._processes[process.name] = process
         }
       }
     }
@@ -58,7 +54,7 @@ export class ProcessGroupFactory<GlobalState extends RootState = RootState>
       'auth',
       {
         defaultState: this._getDefaultState(),
-        processes
+        processes: Object.values(processes)
       }
     )
 
