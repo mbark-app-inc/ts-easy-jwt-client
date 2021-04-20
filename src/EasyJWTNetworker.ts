@@ -29,6 +29,10 @@ export class EasyJWTNetworker implements IEasyJWTNetworker {
   }
 
   protected async _refreshAccessToken() {
+    if (!this.options.refreshRequest) {
+      return false
+    }
+
     const response = await this.options.refreshRequest.send({
       refreshToken: this._tokenManager.getRefreshToken()
     })
