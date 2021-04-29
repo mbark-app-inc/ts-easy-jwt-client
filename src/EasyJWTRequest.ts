@@ -16,15 +16,21 @@ export class EasyJWTRequest implements IEasyJWTRequest {
     return axios
   }
 
-  async send(data: Record<string, any> = {}): Promise<AxiosResponse> {
-    const request = this._getRequest(data)
+  async send(
+    params: Record<string, string> = {},
+    data: Record<string, any> = {}
+  ): Promise<AxiosResponse> {
+    const request = this._getRequest(params, data)
     return this._getNetworker()(request)
   }
 
-  protected _getRequest(data: Record<string, any>) {
+  protected _getRequest(
+    params: Record<string, string>,
+    data: Record<string, any>
+  ) {
     const request: AxiosRequestConfig = {
       method: this.options.method,
-      url: this.options.url
+      url: this._getUrlWithParams(params)
     }
 
     const shouldBeParams = ['GET', 'DELETE'].includes(this.options.method)
@@ -43,5 +49,11 @@ export class EasyJWTRequest implements IEasyJWTRequest {
     }
 
     return request
+  }
+
+  protected _getUrlWithParams(params: Record<string, string>): string {
+    return Object.entries(params).reduce((url, [key, value]) => {
+      return url.replace(`{${key}}`, value)
+    }, this.options.url)
   }
 }

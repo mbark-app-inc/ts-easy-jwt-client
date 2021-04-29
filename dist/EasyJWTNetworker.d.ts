@@ -9,6 +9,7 @@ export declare class EasyJWTNetworker implements IEasyJWTNetworker {
   constructor(options: EasyJWTNetworkerOptions)
   execute(
     request: IEasyJWTRequest,
+    params?: Record<string, string>,
     data?: Record<string, any>
   ): Promise<AxiosResponse>
   protected _refreshAccessToken(): Promise<boolean>

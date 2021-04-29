@@ -5,5 +5,8 @@ export interface IEasyJWTRequestClass {
 }
 export interface IEasyJWTRequest {
   options: EasyJWTRequestOptions
-  send(data: Record<string, any>): Promise<AxiosResponse>
+  send(
+    params: Record<string, string>,
+    data: Record<string, any>
+  ): Promise<AxiosResponse>
 }

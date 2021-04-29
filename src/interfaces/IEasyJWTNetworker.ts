@@ -11,6 +11,7 @@ export interface IEasyJWTNetworker {
 
   execute(
     request: IEasyJWTRequest,
+    params: Record<string, string>,
     data: Record<string, any>
   ): Promise<AxiosResponse>
 }

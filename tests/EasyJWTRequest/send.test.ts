@@ -10,9 +10,12 @@ describe('src/EasyJWTRequest::send', function () {
     })
     instance['_getNetworker'] = () => networkerSpy
 
-    const result = await instance.send({
-      key: 'value'
-    })
+    const result = await instance.send(
+      {},
+      {
+        key: 'value'
+      }
+    )
     this.assert.calledWith(networkerSpy, {
       url: '/asdf',
       method: 'GET',
@@ -30,9 +33,12 @@ describe('src/EasyJWTRequest::send', function () {
     })
     instance['_getNetworker'] = () => networkerSpy
 
-    const result = await instance.send({
-      key: 'value'
-    })
+    const result = await instance.send(
+      {},
+      {
+        key: 'value'
+      }
+    )
     this.assert.calledWith(networkerSpy, {
       url: '/asdf',
       method: 'DELETE',
@@ -50,9 +56,12 @@ describe('src/EasyJWTRequest::send', function () {
     })
     instance['_getNetworker'] = () => networkerSpy
 
-    const result = await instance.send({
-      key: 'value'
-    })
+    const result = await instance.send(
+      {},
+      {
+        key: 'value'
+      }
+    )
     this.assert.calledWith(networkerSpy, {
       url: '/asdf',
       method: 'POST',
@@ -70,9 +79,12 @@ describe('src/EasyJWTRequest::send', function () {
     })
     instance['_getNetworker'] = () => networkerSpy
 
-    const result = await instance.send({
-      key: 'value'
-    })
+    const result = await instance.send(
+      {},
+      {
+        key: 'value'
+      }
+    )
     this.assert.calledWith(networkerSpy, {
       url: '/asdf',
       method: 'PUT',
@@ -93,9 +105,12 @@ describe('src/EasyJWTRequest::send', function () {
     instance['_tokenManager']['_getStorage'] = () => this.mockStorage
 
     return instance
-      .send({
-        key: 'value'
-      })
+      .send(
+        {},
+        {
+          key: 'value'
+        }
+      )
       .then(() => {
         this.assert.notCalled(networkerSpy)
       })
@@ -115,11 +130,43 @@ describe('src/EasyJWTRequest::send', function () {
     instance['_tokenManager']['_getStorage'] = () => this.mockStorage
     instance['_tokenManager'].setAccessToken('my-token')
 
-    const result = await instance.send({
-      key: 'value'
-    })
+    const result = await instance.send(
+      {},
+      {
+        key: 'value'
+      }
+    )
     this.assert.calledWith(networkerSpy, {
       url: '/asdf',
+      method: 'PUT',
+      data: {
+        key: 'value'
+      },
+      headers: {
+        authorization: 'Bearer my-token'
+      }
+    })
+  })
+
+  it('should resolve with a url params request', async function () {
+    let networkerSpy: any = this.sinon.spy()
+    const instance = new EasyJWTRequest({
+      url: '/asdf/{param1}',
+      method: 'PUT',
+      needsAuth: true
+    })
+    instance['_getNetworker'] = () => networkerSpy
+    instance['_tokenManager']['_getStorage'] = () => this.mockStorage
+    instance['_tokenManager'].setAccessToken('my-token')
+
+    const result = await instance.send(
+      { param1: 'value1' },
+      {
+        key: 'value'
+      }
+    )
+    this.assert.calledWith(networkerSpy, {
+      url: '/asdf/value1',
       method: 'PUT',
       data: {
         key: 'value'

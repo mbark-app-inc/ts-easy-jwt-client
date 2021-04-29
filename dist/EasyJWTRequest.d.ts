@@ -7,6 +7,13 @@ export declare class EasyJWTRequest implements IEasyJWTRequest {
   protected _tokenManager: EasyJWTTokenManager
   constructor(options: EasyJWTRequestOptions)
   protected _getNetworker(): import('axios').AxiosStatic
-  send(data?: Record<string, any>): Promise<AxiosResponse>
-  protected _getRequest(data: Record<string, any>): AxiosRequestConfig
+  send(
+    params?: Record<string, string>,
+    data?: Record<string, any>
+  ): Promise<AxiosResponse>
+  protected _getRequest(
+    params: Record<string, string>,
+    data: Record<string, any>
+  ): AxiosRequestConfig
+  protected _getUrlWithParams(params: Record<string, string>): string
 }

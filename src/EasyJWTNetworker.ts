@@ -15,13 +15,14 @@ export class EasyJWTNetworker implements IEasyJWTNetworker {
 
   async execute(
     request: IEasyJWTRequest,
+    params: Record<string, string> = {},
     data: Record<string, any> = {}
   ): Promise<AxiosResponse> {
-    let response = await request.send(data)
+    let response = await request.send(params, data)
     if (response.status === 403) {
       const didUpdateAccessToken = await this._refreshAccessToken()
       if (didUpdateAccessToken) {
-        response = await request.send(data)
+        response = await request.send(params, data)
       }
     }
 
@@ -33,9 +34,12 @@ export class EasyJWTNetworker implements IEasyJWTNetworker {
       return false
     }
 
-    const response = await this.options.refreshRequest.send({
-      refreshToken: this._tokenManager.getRefreshToken()
-    })
+    const response = await this.options.refreshRequest.send(
+      {},
+      {
+        refreshToken: this._tokenManager.getRefreshToken()
+      }
+    )
 
     if (response.status === 200) {
       this._tokenManager.setAccessToken(response.data.tokens.access)
